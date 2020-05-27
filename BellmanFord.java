@@ -1,23 +1,35 @@
-public class Main {
-	public static void main(String[] args) {
-		FastScanner sc = new FastScanner();
-		int v = sc.nextInt();
-		int e = sc.nextInt();
-		int r = sc.nextInt();
-		ArrayList<Edge> edges = new ArrayList<>();
-		for (int i = 0; i < e; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			int d = sc.nextInt();
-			edges.add(new Edge(a, b, d));
+class BellmanFord {
+	static class Edge {
+		int from;
+		int to;
+		int cost;
+		Edge(int from, int to, int cost) {
+			this.from = from;
+			this.to = to;
+			this.cost = cost;
 		}
-		int[] distance = new int[v];
-		final int INF = 1000000000;
+	}
+	static final int INF = Integer.MAX_VALUE;
+	int v;
+	int e;
+	int r;
+	ArrayList<Edge> edges;
+	int[] distance;
+	public BellmanFord(int v, int e, int r, int[] s, int[] t, int[] d) {
+		this.v = v;
+		this.e = e;
+		this.r = r;
+		edges = new ArrayList<>(e);
+		for (int i = 0; i < e; i++) {
+			edges.add(new Edge(s[i], t[i], d[i]));
+		}
+	}
+	void run() {
+		distance = new int[v];
 		for (int i = 0; i < v; i++) {
 			distance[i] = INF;
 		}
 		distance[r] = 0;
-
 		for (int i = 0; i < v - 1; i++) {
 			for (Edge edge: edges) {
 				if (distance[edge.from] == INF) continue;
@@ -26,6 +38,9 @@ public class Main {
 				}
 			}
 		}
+	}
+	public void ans() {
+		run();
 		for (Edge edge: edges) {
 			if (distance[edge.from] == INF) continue;
 			if (distance[edge.from] + edge.cost < distance[edge.to]) {
@@ -40,16 +55,5 @@ public class Main {
 				System.out.println(distance[i]);
 			}
 		}
-	}
-}
-
-class Edge {
-	int from;
-	int to;
-	int cost;
-	Edge(int from, int to, int cost) {
-		this.from = from;
-		this.to = to;
-		this.cost = cost;
 	}
 }
