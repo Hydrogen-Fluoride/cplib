@@ -1,21 +1,24 @@
-public class Main {
-	public static void main(String[] args) {
-		FastScanner sc = new FastScanner();
-		int v = sc.nextInt();
-		int e = sc.nextInt();
-		int r = sc.nextInt();
-		TreeMap<Integer, ArrayList<Edge>> map = new TreeMap<>();
+class Dijkstra {
+	static final int INF = Integer.MAX_VALUE;
+	int v;
+	int e;
+	int r;
+	int[] distance;
+	TreeMap<Integer, ArrayList<Edge>> map;
+	public Dijkstra(int v, int e, int r, int[] s, int[] t, int[] d) {
+		this.v = v;
+		this.e = e;
+		this.r = r;
+		map = new TreeMap<>();
 		for (int i = 0; i < v; i++) {
 			map.put(i, new ArrayList<>());
 		}
 		for (int i = 0; i < e; i++) {
-			int s = sc.nextInt();
-			int t = sc.nextInt();
-			int d = sc.nextInt();
-			map.get(s).add(new Edge(s, t, d));
+			map.get(s[i]).add(new Edge(s[i], t[i], d[i]));
 		}
-		int[] distance = new int[v];
-		final int INF = 1000000000;
+	}
+	void run() {
+		distance = new int[v];
 		for (int i = 0; i < v; i++) {
 			if (i != r) {
 				distance[i] = INF;
@@ -31,12 +34,18 @@ public class Main {
 				continue;
 			}
 			for (Edge edge: map.get(node.num)) {
+				if (distance[edge.from] == INF) {
+					continue;
+				}
 				if (distance[edge.to] > distance[edge.from] + edge.cost) {
 					distance[edge.to] = distance[edge.from] + edge.cost;
 					queue.add(new Node(edge.to, distance[edge.to]));
 				}
 			}
 		}
+	}
+	public void ans() {
+		run();
 		for (int i = 0; i < v; i++) {
 			if (distance[i] == INF) {
 				System.out.println("INF");
@@ -44,25 +53,5 @@ public class Main {
 				System.out.println(distance[i]);
 			}
 		}
-	}
-}
-
-class Edge {
-	int from;
-	int to;
-	int cost;
-	Edge(int from, int to, int cost) {
-		this.from = from;
-		this.to = to;
-		this.cost = cost;
-	}
-}
-
-class Node {
-	int num;
-	int cost;
-	Node(int num, int cost) {
-		this.num = num;
-		this.cost = cost;
 	}
 }
