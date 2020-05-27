@@ -1,4 +1,22 @@
 class Dijkstra {
+	static class Edge {
+		int from;
+		int to;
+		int cost;
+		Edge(int from, int to, int cost) {
+			this.from = from;
+			this.to = to;
+			this.cost = cost;
+		}
+	}
+	static class Node {
+		int num;
+		int cost;
+		Node(int num, int cost) {
+			this.num = num;
+			this.cost = cost;
+		}
+	}
 	static final int INF = Integer.MAX_VALUE;
 	int v;
 	int e;
